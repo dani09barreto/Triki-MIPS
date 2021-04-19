@@ -261,9 +261,52 @@
       	syscall
       	
       	jr $ra
+      	Ganador:
+      	#Horizontal:
+      	addi $s6, $t1, $t0
+      	addi $s6, $s6, $t2
+      	beq $s6,30,exit
+      	beq $s6,120,exit
       	
+      	addi $s6, $t3, $t4
+      	addi $s6, $s6, $t5
+      	beq $s6,30,exit
+      	beq $s6,120,exit
+      	
+      	addi $s6, $t6, $t7
+      	addi $s6, $s6, $t8
+      	beq $s6,30,exit
+      	beq $s6,120,exit
+      	
+      	#Verticales:
+      	addi $s6, $t3, $t0
+      	addi $s6, $s6, $t6
+      	beq $s6,30,exit
+      	beq $s6,120,exit
+      	
+    	addi $s6, $t1, $t4
+      	addi $s6, $s6, $t7
+      	beq $s6,30,exit
+      	beq $s6,120,exit
+      	
+      	addi $s6, $t2, $t5
+      	addi $s6, $s6, $t8
+      	beq $s6,30,exit
+      	beq $s6,120,exit
     	
+    	#Diagonales:
     	
+    	addi $s6, $t4, $t0
+      	addi $s6, $s6, $t8
+      	beq $s6,30,exit
+      	beq $s6,120,exit
+      	
+      	addi $s6, $t2, $t4
+      	addi $s6, $s6, $t6
+      	beq $s6,30,exit
+      	beq $s6,120,exit
+      	
+      	jr $ra
 	
 	
       	
