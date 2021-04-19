@@ -5,6 +5,7 @@
     tablero: .asciiz " 1 | 2 | 3\n 4 | 5 | 6\n 7 | 8 | 9\n"   
     jugador: .asciiz "jugador: "
     movimiento: .asciiz "Inserte su movimiento del 1 al 9: "
+    Anuncio: .asciiz "Recuerda 10 = X, 40 = O\n"
     espacio: .asciiz "| "
     X: .asciiz "X"
     O: .asciiz "O"
@@ -201,7 +202,9 @@
 	jr $ra
     
     vertablero:
-    	
+    	li $v0, 4
+    	la $a0, Anuncio
+    	syscall
     	li $v0, 1
       	add $a0, $t0, $zero
       	syscall
