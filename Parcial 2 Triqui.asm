@@ -6,6 +6,9 @@
     jugador: .asciiz "jugador: "
     movimiento: .asciiz "Inserte su movimiento del 1 al 9: "
     Anuncio: .asciiz "Recuerda 10 = X, 40 = O\n"
+    winjg1: .asciiz "El ganador es el jugador 1"
+    winjg2: .asciiz "El ganador es el jugador 2"
+    empate: .asciiz "Nadie gano es empate"
     espacio: .asciiz "| "
     X: .asciiz "X"
     O: .asciiz "O"
@@ -84,13 +87,20 @@
       	   
       	   jal jugada
       	   jal vertablero
+      	   jal Ganador
 
-      	   
       	   # movimientos ++
       	   addi $s1, $s1, 1
       	   jal jugadores
       	   j while
       	exit:
+      	li $v0, 4
+      	la $a0 endline
+      	syscall
+      	
+      	li $v0, 4
+      	la $a0 empate
+      	syscall
       	
       	li $v0, 10
       	syscall
@@ -261,53 +271,68 @@
       	syscall
       	
       	jr $ra
+      	
       	Ganador:
       	#Horizontal:
-      	addi $s6, $t1, $t0
-      	addi $s6, $s6, $t2
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+      	add $s6, $t1, $t0
+      	add $s6, $s6, $t2
+      	beq $s6,30, ganajg1
+      	beq $s6,120, ganajg2
       	
-      	addi $s6, $t3, $t4
-      	addi $s6, $s6, $t5
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+      	add $s6, $t3, $t4
+      	add $s6, $s6, $t5
+      	beq $s6,30, ganajg1
+      	beq $s6,120, ganajg2
       	
-      	addi $s6, $t6, $t7
-      	addi $s6, $s6, $t8
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+      	add $s6, $t6, $t7
+      	add $s6, $s6, $t8
+      	beq $s6, 30, ganajg1
+      	beq $s6, 120, ganajg2
       	
       	#Verticales:
-      	addi $s6, $t3, $t0
-      	addi $s6, $s6, $t6
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+      	add $s6, $t3, $t0
+      	add $s6, $s6, $t6
+      	beq $s6,30,ganajg1
+      	beq $s6,120,ganajg2
       	
-    	addi $s6, $t1, $t4
-      	addi $s6, $s6, $t7
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+    	add $s6, $t1, $t4
+      	add $s6, $s6, $t7
+      	beq $s6,30,ganajg1
+      	beq $s6,120,ganajg2
       	
-      	addi $s6, $t2, $t5
-      	addi $s6, $s6, $t8
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+      	add $s6, $t2, $t5
+      	add $s6, $s6, $t8
+      	beq $s6,30,ganajg1
+      	beq $s6,120,ganajg2
     	
     	#Diagonales:
     	
-    	addi $s6, $t4, $t0
-      	addi $s6, $s6, $t8
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+    	add $s6, $t4, $t0
+      	add $s6, $s6, $t8
+      	beq $s6,30,ganajg1
+      	beq $s6,120,ganajg2
       	
-      	addi $s6, $t2, $t4
-      	addi $s6, $s6, $t6
-      	beq $s6,30,exit
-      	beq $s6,120,exit
+      	add $s6, $t2, $t4
+      	add $s6, $s6, $t6
+      	beq $s6,30,ganajg1
+      	beq $s6,120,ganajg2
       	
       	jr $ra
 	
+	ganajg1:
+	     li $v0, 4
+             la $a0 winjg1
+      	     syscall
+      	     li $v0, 10
+      	     syscall
+      	     
+      	ganajg2:
+      	     li $v0, 4
+             la $a0 winjg2
+      	     syscall
+      	     li $v0, 10
+      	     syscall
+      	     
 	
       	
       
