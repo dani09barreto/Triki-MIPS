@@ -4,7 +4,9 @@
     endline: .asciiz "\n"
     tablero: .asciiz " 1 | 2 | 3\n 4 | 5 | 6\n 7 | 8 | 9\n"   
     jugador: .asciiz "jugador: "
+    jugadorA: .asciiz "jugador 1: "
     movimiento: .asciiz "Inserte su movimiento del 1 al 9: "
+    jugadaMaquina: .asciiz "la jugada de la maquina fue: \n\n"
     Anuncio: .asciiz "Recuerda 10 = X, 40 = O\n"
     winjg1: .asciiz "El ganador es el jugador 1"
     winjg2: .asciiz "El ganador es el jugador 2"
@@ -12,6 +14,8 @@
     espacio: .asciiz "| "
     X: .asciiz "X"
     O: .asciiz "O"
+    Decision : .asciiz "Si desea jugar contra la maquina ingrese 1, si desea jugar multijugador ingrese 2: "
+    MsgA: .asciiz "Recuerde usted es el jugador 1 y el jugador 2 es la maquina \n"
     pos1: .word 1
     pos2: .word 2
     pos3: .word 3
@@ -28,6 +32,7 @@
     main:
     	#asignacion de jugador
     	addi $s0, $zero, 1
+    	add $s1, $zero, 0
     	addi $s3, $zero, 10
     	addi $s4, $zero, 40
     	#asignacion de posiciones en el tablero
@@ -40,12 +45,24 @@
         lw $t6, pos7
         lw $t7, pos8
         lw $t8, pos9
-    	
-    	li $v0, 4
+        
+        li $v0, 4
       	la $a0 inicio
       	syscall
-      
-      	li $v0, 4
+      	
+      	 li $v0, 4
+      	la $a0 endline
+      	syscall 	 	
+        
+        li $v0, 4
+        la $a0,  Decision 
+        syscall        
+          	
+        li $v0, 5
+        syscall
+        move $s7,$v0
+        
+        li $v0, 4
       	la $a0 endline
       	syscall
       	
@@ -57,8 +74,14 @@
       	la $a0 endline
       	syscall
       	
+        beq $s7, 2, while
+        beq $s7, 1, ciclo
+         
+     
+      	
       	# movimientos = 0
-      	addi $s1, $zero, 0
+      	
+
       	while:
       	   bge $s1, 9, exit
       	   li $v0, 4
@@ -93,6 +116,40 @@
       	   addi $s1, $s1, 1
       	   jal jugadores
       	   j while
+      	   
+         ciclo: 
+      	   bge $s1, 9, exit
+      	   
+      	   li $v0, 4
+      	   la $a0, jugadorA
+      	   syscall
+            	   
+      	    li $v0, 4
+      	    la $a0, movimiento
+      	    syscall
+      	    
+      	    li $v0, 5
+      	    syscall
+      	    move $t9, $v0    	
+      	    
+      	        jal jugadaA
+      	        
+      	        li $v0, 4
+      	        la $a0, endline
+      	        syscall
+      	        
+      	        li $v0, 4
+      	        la $a0, jugadaMaquina
+      	        syscall      	        
+      	        
+      	        jal jugadaI
+      	        jal verTableroA
+      	        
+      	   addi $s1, $s1, 1      	   
+      	   j ciclo
+      	   
+      	   
+      	   
       	exit:
       	li $v0, 4
       	la $a0 endline
@@ -104,8 +161,127 @@
       	
       	li $v0, 10
       	syscall
+ # funciones de juego automatico
+ 
+     verTableroA:
+      li $v0, 4
+      la $a0, MsgA
+      syscall
+      
+      li $s0, 4
+      la $a0, Anuncio
+      syscall
+      
+        li $v0, 1
+      	add $a0, $t0, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 espacio
+      	syscall
+      	li $v0, 1
+      	add $a0, $t1, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 espacio
+      	syscall
+      	li $v0, 1
+      	add $a0, $t2, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 endline
+      	syscall
+      	li $v0, 1
+      	add $a0, $t3, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 espacio
+      	syscall
+      	li $v0, 1
+      	add $a0, $t4, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 espacio
+      	syscall
+      	li $v0, 1
+      	add $a0, $t5, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 endline
+      	syscall
+        li $v0, 1
+      	add $a0, $t6, $zero
+      	syscall
+      	li $v0, 4
+      	la $a0 espacio
+      	syscall
+      	li $v0, 1
+      	add $a0, $t7, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 espacio
+      	syscall
+      	li $v0, 1
+      	add $a0, $t8, $zero
+      	syscall
+    	li $v0, 4
+      	la $a0 endline
+      	syscall
+      	
+      jr $ra
+      
+      jugadaA:      
+      	beq $t9, $t0, ifjg11
+	beq $t9, $t1, ifjg12
+	beq $t9, $t2, ifjg13
+	beq $t9, $t3, ifjg14
+	beq $t9, $t4, ifjg15
+	beq $t9, $t5, ifjg16
+	beq $t9, $t6, ifjg17
+	beq $t9, $t7, ifjg18
+	beq $t9, $t8, ifjg19
+    	jr $ra
+    	
+      jugadaI:     
+     	beq $t9, $t0, Mcentro
+	beq $t9, $t1, Mfrente2 
+	beq $t9, $t2, Mcentro
+	beq $t9, $t3, Mfrente4
+	beq $t9, $t4, Mfijo
+	beq $t9, $t5, Mfrente6
+	beq $t9, $t6, Mcentro
+	beq $t9, $t7, Mfrente8
+	beq $t9, $t8, Mcentro
+        addi $s1, $s1, 1    
+        jr $ra
     
-    #incremento o decremento de los jugadores
+     Mcentro:   
+     move $t4, $s4
+    jr $ra
+    
+    Mfijo:
+    move $t8, $s4
+    jr $ra
+    
+    Mfrente2:
+    move $t7, $s4
+    jr $ra
+    
+    Mfrente4:
+    move $t7, $s4
+    jr $ra
+    
+    Mfrente6:
+    move $t3, $s4
+    jr $ra
+    
+    Mfrente8:
+    move $t1, $s4
+    jr $ra
+    
+    	                          
+       	
+     	    	
+  #incremento o decremento de los jugadores
     jugadores:
     	bne $s0, 2, else
     	addi $s0, $s0, -1
