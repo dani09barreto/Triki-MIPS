@@ -29,7 +29,7 @@
     msgjug2: .asciiz "el jugador 2 ha ganado el juego"
     
 .text
-    main:
+main:
     	#asignacion de jugador
     	addi $s0, $zero, 1
     	addi $s1, $zero, 0
@@ -50,7 +50,7 @@
       	la $a0 inicio
       	syscall
       	
-      	 li $v0, 4
+      	li $v0, 4
       	la $a0 endline
       	syscall 	 	
         
@@ -79,80 +79,79 @@
          
      
       	
-      	# movimientos = 0
+        #movimientos = 0
+   	
+while:
+        bge $s1, 9, exit
+      	li $v0, 4
+        la $a0 jugador
+      	syscall
+      	   
+      	li $v0, 1
+      	add $a0, $s0, $zero
+      	syscall
       	
+      	li $v0, 4
+      	la $a0 endline
+      	syscall
+      	
+      	li $v0, 4
+      	la $a0 endline
+      	syscall
+      	
+      	li $v0, 4
+      	la $a0 movimiento
+      	syscall
+      	
+      	li $v0, 5
+      	syscall
+      	move $t9, $v0
+      	   
+      	jal jugada
+      	jal vertablero
+      	jal Ganador
 
-      	while:
-      	   bge $s1, 9, exit
-      	   li $v0, 4
-           la $a0 jugador
-      	   syscall
+        # movimientos ++
+      	addi $s1, $s1, 1
+      	jal jugadores
+      	j while
       	   
-      	   li $v0, 1
-      	   add $a0, $s0, $zero
-      	   syscall
-      	
-      	   li $v0, 4
-      	   la $a0 endline
-      	   syscall
-      	
-      	   li $v0, 4
-      	   la $a0 endline
-      	   syscall
-      	
-      	   li $v0, 4
-      	   la $a0 movimiento
-      	   syscall
-      	
-      	   li $v0, 5
-      	   syscall
-      	   move $t9, $v0
+ ciclo: 
+        bge $s1, 9, exit
       	   
-      	   jal jugada
-      	   jal vertablero
-      	   jal Ganador
-
-      	   # movimientos ++
-      	   addi $s1, $s1, 1
-      	   jal jugadores
-      	   j while
-      	   
-         ciclo: 
-      	   bge $s1, 9, exit
-      	   
-      	   li $v0, 4
-      	   la $a0, jugadorA
-      	   syscall
+      	li $v0, 4
+      	la $a0, jugadorA
+      	syscall
             	   
-      	    li $v0, 4
-      	    la $a0, movimiento
-      	    syscall
+      	li $v0, 4
+      	la $a0, movimiento
+      	syscall
       	    
-      	    li $v0, 5
-      	    syscall
-      	    move $t9, $v0    	
+      	li $v0, 5
+      	syscall
+      	move $t9, $v0    	
       	    
-      	        jal jugadaAutomatica
+        jal jugadaAutomatica
       	        
-      	        li $v0, 4
-      	        la $a0, endline
-      	        syscall
+      	li $v0, 4
+      	la $a0, endline
+      	syscall
       	        
-      	        li $v0, 4
-      	        la $a0, jugadaMaquina
-      	        syscall      	        
+      	li $v0, 4
+      	la $a0, jugadaMaquina
+      	syscall      	        
       	        
-      	        beq $s1,0, jugadaI
-      	        bge $s1,1,Logica
-      	        addi $s1, $s1, 1
-      	        jal verTableroA
-      	        jal Ganador
-      	   addi $s1, $s1, 1      	   
-      	   j ciclo
+      	beq $s1,0, jugadaI
+      	bge $s1,1,Logica
+      	addi $s1, $s1, 1
+      	jal verTableroA
+      	jal Ganador
+      	addi $s1, $s1, 1      	   
+      	j ciclo
       	   
       	   
       	   
-      	exit:
+ exit:
       	li $v0, 4
       	la $a0 endline
       	syscall
@@ -163,16 +162,16 @@
       	
       	li $v0, 10
       	syscall
- # funciones de juego automatico
+        # funciones de juego automatico
  
-     verTableroA:
-      li $v0, 4
-      la $a0, MsgA
-      syscall
+verTableroA:
+        li $v0, 4
+        la $a0, MsgA
+        syscall
       
-      li $s0, 4
-      la $a0, Anuncio
-      syscall
+        li $s0, 4
+        la $a0, Anuncio
+        syscall
       
         li $v0, 1
       	add $a0, $t0, $zero
@@ -229,9 +228,9 @@
       	la $a0 endline
       	syscall
       	
-      jr $ra
+        jr $ra
       
-      jugadaAutomatica:      
+jugadaAutomatica:      
       	beq $t9, $t0, ifjg11
 	beq $t9, $t1, ifjg12
 	beq $t9, $t2, ifjg13
@@ -243,7 +242,7 @@
 	beq $t9, $t8, ifjg19
     	jr $ra
     	
-      jugadaI:     
+jugadaI:     
      	beq $t0, 10, ifjg25
 	beq $t1, 10, ifjg28 
 	beq $t2, 10, ifjg25
@@ -255,9 +254,8 @@
 	beq $t8, 10, ifjg25	            
         jr $ra
     
-
-    Logica:
-    #Horizontales primera linea
+Logica:
+        #Horizontales primera linea
      	add $s6, $t1, $t0      	
       	beq $s6,20,AnalisisH1
       	
@@ -266,7 +264,7 @@
       	
      	add $s6, $t2, $t0      	
       	beq $s6,20,AnalisisH1
-   #horizontales segunda linea
+        #horizontales segunda linea
      	add $s6, $t3, $t4
       	beq $s6,20,AnalisisH2
       	
@@ -275,7 +273,7 @@
       	
       	add $s6, $t5, $t4
       	beq $s6,20,AnalisisH2       	
-   #horizontales tercera linea
+        #horizontales tercera linea
      	add $s6, $t6, $t7      	
       	beq $s6,20,AnalisisH3  
       	
@@ -284,7 +282,7 @@
       	
       	add $s6, $t8, $t7          	  	
       	beq $s6,20,AnalisisH3 
-    #Verticales fila 1
+        #Verticales fila 1
         add $s6, $t0, $t3
       	beq $s6,20,AnalisisV1
       	
@@ -293,7 +291,7 @@
       	
       	add $s6, $t6, $t3
       	beq $s6,20,AnalisisV1 
-    #verticales fila 2  	
+        #verticales fila 2  	
       	add $s6, $t1, $t4
       	beq $s6,20,AnalisisV2 
       	
@@ -302,17 +300,17 @@
       	 
       	add $s6, $t7, $t4
       	beq $s6,20,AnalisisV2 
-    #vertical fila 3  	
-      	 add $s6, $t2, $t5      	
+        #vertical fila 3  	
+      	add $s6, $t2, $t5      	
       	beq $s6,20,AnalisisV3 
       	
-      	 add $s6, $t2, $t8      	
+      	add $s6, $t2, $t8      	
       	beq $s6,20,AnalisisV3
       	 
-      	 add $s6, $t5, $t8      	
+      	add $s6, $t5, $t8      	
       	beq $s6,20,AnalisisV3 
       	
-     #diagonales derecha
+        #diagonales derecha
         add $s6, $t0, $t4      	
       	beq $s6,20,AnalisisD1
       	
@@ -321,18 +319,103 @@
       	
       	add $s6, $t0, $t8      	
       	beq $s6,20,AnalisisD1
-      # diagolanles izquierda	
-      add $s6, $t2, $t4      	
-      beq $s6,20,AnalisisD2
+        # diagolanles izquierda	
+        add $s6, $t2, $t4      	
+        beq $s6,20,AnalisisD2
       
-      add $s6, $t6, $t4      	
-      beq $s6,20,AnalisisD2
+        add $s6, $t6, $t4      	
+        beq $s6,20,AnalisisD2
       
-      add $s6, $t2, $t6      	
-      beq $s6,20,AnalisisD2     	
+        add $s6, $t2, $t6      	
+        beq $s6,20,AnalisisD2     	
        
+        jr $ra      
+       
+LogiGanador:
+        #Horizontales primera linea
+     
+        add $s6, $t1, $t0      	
+      	beq $s6,40,AnalisisGH1
+      	
+     	add $s6, $t1, $t2      	
+      	beq $s6,40,AnalisisGH1
+      	
+     	add $s6, $t2, $t0      	
+      	beq $s6,40,AnalisisGH1
+        #horizontales segunda linea
+     	add $s6, $t3, $t4
+      	beq $s6,20,AnalisisGH2
+      	
+      	add $s6, $t3, $t5
+      	beq $s6,20,AnalisisGH2 
+      	
+      	add $s6, $t5, $t4
+      	beq $s6,20,AnalisisGH2       	
+        #horizontales tercera linea
+     	add $s6, $t6, $t7      	
+      	beq $s6,20,AnalisisGH3  
+      	
+      	add $s6, $t6, $t8      	
+      	beq $s6,20,AnalisisGH3 
+      	
+      	add $s6, $t8, $t7          	  	
+      	beq $s6,20,AnalisisGH3 
+        #Verticales fila 1
+        add $s6, $t0, $t3
+      	beq $s6,20,AnalisisGV1
+      	
+      	add $s6, $t0, $t6
+      	beq $s6,20,AnalisisGV1
+      	
+      	add $s6, $t6, $t3
+      	beq $s6,20,AnalisisGV1 
+        #verticales fila 2  	
+      	add $s6, $t1, $t4
+      	beq $s6,20,AnalisisGV2 
+      	
+      	add $s6, $t1, $t7
+      	beq $s6,20,AnalisisGV2
+      	 
+      	add $s6, $t7, $t4
+      	beq $s6,20,AnalisisGV2 
+        #vertical fila 3  	
+      	add $s6, $t2, $t5      	
+      	beq $s6,20,AnalisisGV3 
+      	
+      	add $s6, $t2, $t8      	
+      	beq $s6,20,AnalisisGV3
+      	 
+      	add $s6, $t5, $t8      	
+      	beq $s6,20,AnalisisGV3 
+      	
+        #diagonales derecha
+        add $s6, $t0, $t4      	
+      	beq $s6,20,AnalisisGD1
+      	
+      	add $s6, $t8, $t4      	
+      	beq $s6,20,AnalisisGD1
+      	
+      	add $s6, $t0, $t8      	
+      	beq $s6,20,AnalisisGD1
+        # diagolanles izquierda	
+        add $s6, $t2, $t4      	
+        beq $s6,20,AnalisisGD2
+      
+        add $s6, $t6, $t4      	
+        beq $s6,20,AnalisisGD2
+      
+        add $s6, $t2, $t6      	
+        beq $s6,20,AnalisisGD2   
+        jr $ra
+       
+       #Funciones de analisis de ganador   
+       AnalisisGH1:
+       blt $t0,10,ifjg21
+       blt $t1,10,ifjg22
+       blt $t3,10,ifjg23
        jr $ra
        
+   #Funciones de analisis defensa    
        AnalisisD2:
        bne $t2,10,ifjg23
        bne $t4,10,ifjg25
