@@ -32,7 +32,7 @@
     main:
     	#asignacion de jugador
     	addi $s0, $zero, 1
-    	add $s1, $zero, 0
+    	addi $s1, $zero, 0
     	addi $s3, $zero, 10
     	addi $s4, $zero, 40
     	#asignacion de posiciones en el tablero
@@ -132,7 +132,7 @@
       	    syscall
       	    move $t9, $v0    	
       	    
-      	        jal jugadaA
+      	        jal jugadaAutomatica
       	        
       	        li $v0, 4
       	        la $a0, endline
@@ -142,9 +142,11 @@
       	        la $a0, jugadaMaquina
       	        syscall      	        
       	        
-      	        jal jugadaI
+      	        beq $s1,0, jugadaI
+      	        bge $s1,1,Logica
+      	        addi $s1, $s1, 1
       	        jal verTableroA
-      	        
+      	        jal Ganador
       	   addi $s1, $s1, 1      	   
       	   j ciclo
       	   
@@ -229,7 +231,7 @@
       	
       jr $ra
       
-      jugadaA:      
+      jugadaAutomatica:      
       	beq $t9, $t0, ifjg11
 	beq $t9, $t1, ifjg12
 	beq $t9, $t2, ifjg13
@@ -242,45 +244,138 @@
     	jr $ra
     	
       jugadaI:     
-     	beq $t9, $t0, Mcentro
-	beq $t9, $t1, Mfrente2 
-	beq $t9, $t2, Mcentro
-	beq $t9, $t3, Mfrente4
-	beq $t9, $t4, Mfijo
-	beq $t9, $t5, Mfrente6
-	beq $t9, $t6, Mcentro
-	beq $t9, $t7, Mfrente8
-	beq $t9, $t8, Mcentro
-        addi $s1, $s1, 1    
+     	beq $t0, 10, ifjg25
+	beq $t1, 10, ifjg28 
+	beq $t2, 10, ifjg25
+	beq $t3, 10, ifjg26
+	beq $t4, 10, ifjg29
+	beq $t5, 10, ifjg24
+	beq $t6, 10, ifjg25
+	beq $t7, 10, ifjg22
+	beq $t8, 10, ifjg25	            
         jr $ra
     
-     Mcentro:   
-     move $t4, $s4
+
+    Logica:
+    #Horizontales primera linea
+     	add $s6, $t1, $t0      	
+      	beq $s6,20,AnalisisH1
+      	
+     	add $s6, $t1, $t2      	
+      	beq $s6,20,AnalisisH1
+      	
+     	add $s6, $t2, $t0      	
+      	beq $s6,20,AnalisisH1
+   #horizontales segunda linea
+     	add $s6, $t3, $t4
+      	beq $s6,20,AnalisisH2
+      	
+      	add $s6, $t3, $t5
+      	beq $s6,20,AnalisisH2 
+      	
+      	add $s6, $t5, $t4
+      	beq $s6,20,AnalisisH2       	
+   #horizontales tercera linea
+     	add $s6, $t6, $t7      	
+      	beq $s6,20,AnalisisH3  
+      	
+      	add $s6, $t6, $t8      	
+      	beq $s6,20,AnalisisH3 
+      	
+      	add $s6, $t8, $t7          	  	
+      	beq $s6,20,AnalisisH3 
+    #Verticales fila 1
+        add $s6, $t0, $t3
+      	beq $s6,20,AnalisisV1
+      	
+      	add $s6, $t0, $t6
+      	beq $s6,20,AnalisisV1
+      	
+      	add $s6, $t6, $t3
+      	beq $s6,20,AnalisisV1 
+    #verticales fila 2  	
+      	add $s6, $t1, $t4
+      	beq $s6,20,AnalisisV2 
+      	
+      	add $s6, $t1, $t7
+      	beq $s6,20,AnalisisV2
+      	 
+      	add $s6, $t7, $t4
+      	beq $s6,20,AnalisisV2 
+    #vertical fila 3  	
+      	 add $s6, $t2, $t5      	
+      	beq $s6,20,AnalisisV3 
+      	
+      	 add $s6, $t2, $t8      	
+      	beq $s6,20,AnalisisV3
+      	 
+      	 add $s6, $t5, $t8      	
+      	beq $s6,20,AnalisisV3 
+      	
+     #diagonales derecha
+        add $s6, $t0, $t4      	
+      	beq $s6,20,AnalisisD1
+      	
+      	add $s6, $t8, $t4      	
+      	beq $s6,20,AnalisisD1
+      	
+      	add $s6, $t0, $t8      	
+      	beq $s6,20,AnalisisD1
+      # diagolanles izquierda	
+      add $s6, $t2, $t4      	
+      beq $s6,20,AnalisisD2
+      
+      add $s6, $t6, $t4      	
+      beq $s6,20,AnalisisD2
+      
+      add $s6, $t2, $t6      	
+      beq $s6,20,AnalisisD2     	
+       
+       jr $ra
+       
+       AnalisisD2:
+       bne $t2,10,ifjg23
+       bne $t4,10,ifjg25
+       bne $t6,10,ifjg27
+       jr $ra
+       AnalisisD1:
+       bne $t0,10,ifjg21
+       bne $t4,10,ifjg25
+       bne $t8,10,ifjg28
+       jr $ra
+     AnalisisV1:
+    bne $t0,10,ifjg21
+    bne $t3,10,ifjg24
+    bne $t6,10,ifjg27
+    jr $ra
+     AnalisisV2:
+    bne $t1,10,ifjg22
+    bne $t4,10,ifjg25
+    bne $t7,10,ifjg28
+    jr $ra  
+       AnalisisV3:
+    bne $t2,10,ifjg23
+    bne $t5,10,ifjg26
+    bne $t8,10,ifjg29
+    jr $ra
+    AnalisisH1:
+    bne $t0,10,ifjg21
+    bne $t1,10,ifjg22
+    bne $t2,10,ifjg23
     jr $ra
     
-    Mfijo:
-    move $t8, $s4
+        AnalisisH2:
+    bne $t3,10,ifjg24
+    bne $t4,10,ifjg25
+    bne $t5,10,ifjg26
     jr $ra
     
-    Mfrente2:
-    move $t7, $s4
+    AnalisisH3:
+    bne $t6,10,ifjg27
+    bne $t7,10,ifjg28
+    bne $t8,10,ifjg29
     jr $ra
-    
-    Mfrente4:
-    move $t7, $s4
-    jr $ra
-    
-    Mfrente6:
-    move $t3, $s4
-    jr $ra
-    
-    Mfrente8:
-    move $t1, $s4
-    jr $ra
-    
-    	                          
-       	
-     	    	
+
   #incremento o decremento de los jugadores
     jugadores:
     	bne $s0, 2, else
@@ -507,8 +602,7 @@
              la $a0 winjg2
       	     syscall
       	     li $v0, 10
-      	     syscall
-      	     
+      	     syscall     	     
 	
       	
       
