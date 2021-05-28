@@ -89,6 +89,7 @@
       	   jal jugada
       	   beq $s1, 0, jugadaI
       	   bgt $s1, 1, Logica
+      	   r:
       	 
       	   li $v0, 4
       	   la $a0, endline
@@ -208,143 +209,238 @@
         jr $ra
         
     Logica:
-    
-    	jal LogiGanador 
+    	
+    	#jal LogiGanador 
         #Horizontales primera linea
      	add $s6, $t1, $t0
-     	add $s6, $s6, $t2      	
-      	blt $s6,60,AnalisisH1
-  
+     	add $s6, $s6, $t2     	
+      	beq  $s6,23,AnalisisH1
+      	
+     	add $s6, $t1, $t2
+     	add $s6, $s6, $t0      	
+      	beq  $s6,21,AnalisisH1
+      	
+      	add $s6, $t2, $t0
+     	add $s6, $s6, $t1      	
+      	beq  $s6,22,AnalisisH1
+      	h1:
         #horizontales segunda linea
      	add $s6, $t3, $t4
      	add $s6, $s6, $t5
-      	blt $s6,60,AnalisisH2
-        	
+      	beq  $s6,26,AnalisisH2
+      	
+      	add $s6, $t3, $t5
+      	add $s6, $s6, $t4
+      	beq  $s6,25,AnalisisH2
+      	
+      	add $s6, $t5, $t4
+      	add $s6, $s6, $t3
+      	beq  $s6,24,AnalisisH2 
+      	h2:    	
         #horizontales tercera linea
-     	add $s6, $t6, $t7     
-     	add $s6, $s6, $t8 	
-      	blt $s6,60,AnalisisH3        	
-      
+     	add $s6, $t6, $t7  
+     	add $s6, $s6, $t8    	
+      	beq  $s6,29,AnalisisH3  
+      	
+      	add $s6, $t6, $t8      	
+     	add $s6, $s6, $t7    	
+      	beq  $s6,28,AnalisisH3 
+      	
+      	add $s6, $t8, $t7          	  	
+     	add $s6, $s6, $t6    	
+      	beq  $s6,27,AnalisisH3 
+      	h3:
         #Verticales fila 1
         add $s6, $t0, $t3
         add $s6, $s6, $t6
-      	blt $s6,60,AnalisisV1
-     
+      	beq  $s6,27,AnalisisV1
+      	
+      	add $s6, $t0, $t6
+        add $s6, $s6, $t3
+      	beq  $s6,24,AnalisisV1
+      	
+      	add $s6, $t6, $t3
+        add $s6, $s6, $t0
+      	beq  $s6,21,AnalisisV1
+      	v1:
         #verticales fila 2  	
       	add $s6, $t1, $t4
-      	add $6, $s6, $t7
-      	blt $s6,60,AnalisisV2 
-      
-        #vertical fila 3  	
-      	add $s6, $t2, $t5   
-      	add $s6,$s6,$t8   	
-      	blt $s6,60,AnalisisV3 
-   
+      	add $s6, $s6, $t7
+      	beq  $s6,28,AnalisisV2 
       	
+      	add $s6, $t1, $t7
+      	add $s6, $s6, $t4
+      	beq  $s6,25,AnalisisV2 
+      	 
+      	add $s6, $t7, $t4
+      	add $s6, $s6, $t1
+      	beq  $s6,22,AnalisisV2 
+      	v2:
+        #vertical fila 3  	
+      	add $s6, $t2, $t5
+      	add $s6, $s6, $t8      	
+      	beq  $s6,29,AnalisisV3 
+      	
+      	add $s6, $t2, $t8      	
+      	add $s6, $s6, $t5      	
+      	beq  $s6,26,AnalisisV3 
+      	 
+      	add $s6, $t5, $t8      	
+      	add $s6, $s6, $t2      	
+      	beq  $s6,23,AnalisisV3 
+      	v3:
         #diagonales derecha
-        add $s6, $t0, $t4 
-        add $s6, $s6, $t8     	
-      	blt $s6,60,AnalisisD1
-    
+        add $s6, $t0, $t4
+        add $s6, $s6, $t8      	
+      	ble $s6,29,AnalisisD1
+      	
+      	add $s6, $t8, $t4      	
+        add $s6, $s6, $t0      	
+      	beq  $s6,21,AnalisisD1
+      	
+      	add $s6, $t0, $t8      	
+        add $s6, $s6, $t4      	
+      	beq  $s6,25,AnalisisD1
+      	D1:
         # diagolanles izquierda	
-        add $s6, $t2, $t4  
-        add $s6, $s6, $t6    	
-        blt $s6,60,AnalisisD2
+        add $s6, $t2, $t4
+        add $s6, $s6, $t6      	
+        beq  $s6,27,AnalisisD2
       
-          	
-       
-        jr $ra
+        add $s6, $t6, $t4      	
+        add $s6, $s6, $t2      	
+        beq  $s6,23,AnalisisD2
+      
+        add $s6, $t2, $t6      	
+        add $s6, $s6, $t4      	
+        beq  $s6,25,AnalisisD2    	
+       	D2:
+        j r
         
     #Funciones de analisis defensa    
     AnalisisH1:
     	bne $t0,10,ifjg21
     	bne $t1,10,ifjg22
     	bne $t2,10,ifjg23 
-    	jr $ra
+    	j h1
     
     AnalisisH2:
     	bne $t3,10,ifjg24
     	bne $t4,10,ifjg25
     	bne $t5,10,ifjg26
-    	jr $ra
+    	j h2
     	
     AnalisisH3:
-    	bne $t6,10,ifjg27
-    	bne $t7,10,ifjg28
-    	bne $t8,10,ifjg29
-    	jr $ra
+    	beq $t7,$t8,ifjg27
+    	beq $t6, $t8, ifjg28
+    	beq $t7, $t6, ifjg29
+        j h3
     	
     AnalisisV1:
-    	bne $t0,10,ifjg21
-    	bne $t3,10,ifjg24
-    	bne $t6,10,ifjg27
-    	jr $ra
+	beq $t0, $t6, ifjg24
+	beq $t0, $t3, ifjg27
+	beq $t3, $t6, ifjg21
+        j v1
     	
     AnalisisV2:
     	bne $t1,10,ifjg22
     	bne $t4,10,ifjg25
     	bne $t7,10,ifjg28
-    	jr $ra  
+        j v2
     	
     AnalisisV3:
     	bne $t2,10,ifjg23
     	bne $t5,10,ifjg26
     	bne $t8,10,ifjg29
-    	jr $ra	
+        j v3
     	  
     AnalisisD2:
        bne $t2,10,ifjg23
        bne $t4,10,ifjg25
        bne $t6,10,ifjg27
-       jr $ra
+       j D2
        
     AnalisisD1:
        bne $t0,10,ifjg21
        bne $t4,10,ifjg25
        bne $t8,10,ifjg28
-       jr $ra	
+       j D1	
         
     LogiGanador:
        #Horizontales primera linea
-       add $s6, $t1, $t0  
-       add $s6, $s6, $t2    	
-       blt $s6,120,AnalisisGH1      	
-      
+       add $s6, $t1, $t0      	
+       beq $s6,40,AnalisisGH1
+      	
+       add $s6, $t1, $t2      	
+       beq $s6,40,AnalisisGH1
+      	
+       add $s6, $t2, $t0      	
+       beq $s6,40,AnalisisGH1
        #horizontales segunda linea
        add $s6, $t3, $t4
-       add $s6, $s6, $t5
-       blt $s6,120,AnalisisGH2      	
-           	
+       beq $s6,40,AnalisisGH2
+      	
+       add $s6, $t3, $t5
+       beq $s6,40,AnalisisGH2 
+      	
+       add $s6, $t5, $t4
+       beq $s6,40,AnalisisGH2       	
        #horizontales tercera linea
-       add $s6, $t6, $t7    
-       add $s6,$s6, $t8  	
-       blt $s6,120,AnalisisGH3       	
-        
+       add $s6, $t6, $t7      	
+       beq $s6,40,AnalisisGH3  
+      	
+       add $s6, $t6, $t8      	
+       beq $s6,40,AnalisisGH3 
+      	
+       add $s6, $t8, $t7          	  	
+       beq $s6,40,AnalisisGH3 
        #Verticales fila 1
        add $s6, $t0, $t3
-       add $s6, $s6,$t6
-       blt $s6,120,AnalisisGV1      	
-      
+       beq $s6,40,AnalisisGV1
+      	
+       add $s6, $t0, $t6
+       beq $s6,40,AnalisisGV1
+      	
+       add $s6, $t6, $t3
+       beq $s6,40,AnalisisGV1 
        #verticales fila 2  	
        add $s6, $t1, $t4
-       add $s6,$s6,$t7
-       blt $s6,120,AnalisisGV2      	
-       
+       beq $s6,40,AnalisisGV2 
+      	
+       add $s6, $t1, $t7
+       beq $s6,40,AnalisisGV2
+      	 
+       add $s6, $t7, $t4
+       beq $s6,40,AnalisisGV2 
        #vertical fila 3  	
-       add $s6, $t2, $t5  
-       add $s6, $s6, $t8    	
-       blt $s6,120,AnalisisGV3    	
-           	
+       add $s6, $t2, $t5      	
+       beq $s6,40,AnalisisGV3 
+      	
+       add $s6,$t2, $t8      	
+       beq $s6,40,AnalisisGV3
+      	 
+       add $s6, $t5, $t8      	
+       beq $s6,40,AnalisisGV3 
+      	
        #diagonales derecha
-       add $s6, $t0, $t4     
-       add $s6, $s6, $t8 	
-       blt $s6,120,AnalisisGD1     	
-      
+       add $s6, $t0, $t4      	
+       beq $s6,40,AnalisisGD1
+     	
+       add $s6, $t8, $t4      	
+       beq $s6,40,AnalisisGD1
+      	
+       add $s6, $t0, $t8      	
+       beq $s6,40,AnalisisGD1
        # diagolanles izquierda	
-       add $s6, $t2, $t4    
-       add $s6,$s6, $t6  	
-       blt $s6,120,AnalisisGD2      
+       add $s6, $t2, $t4      	
+       beq $s6,40,AnalisisGD2
       
+       add $s6, $t6, $t4      	
+       beq $s6,40,AnalisisGD2
+      
+       add $s6, $t2, $t6      	
+       beq $s6,40,AnalisisGD2  
+        
        jr $ra
     
     AnalisisGD2:
@@ -426,47 +522,47 @@
     ifjg21:
 	move $t0,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 
     ifjg22:
 	move $t1,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 
     ifjg23:
 	move $t2,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 	
     ifjg24:
 	move $t3,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 
     ifjg25:
 	move $t4,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 
     ifjg26:
 	move $t5,$s4
 	addi $s1, $s1 , 1
-	jr $ra
-
+	j r
+	
     ifjg27:
 	move $t6,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 
     ifjg28:
 	move $t7,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 
     ifjg29:
 	move $t8,$s4
 	addi $s1, $s1 , 1
-	jr $ra
+	j r
 	
     Ganador:
     	#Horizontal:
