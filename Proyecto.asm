@@ -319,15 +319,15 @@
         
     #Funciones de analisis defensa    
     AnalisisH1:
-    	bne $t0,10,ifjg21
-    	bne $t1,10,ifjg22
-    	bne $t2,10,ifjg23 
+    	beq $t0, $t1,ifjg23
+    	beq $t0, $t2,ifjg22
+    	beq $t2, $t1,ifjg21
     	j h1
     
     AnalisisH2:
-    	bne $t3,10,ifjg24
-    	bne $t4,10,ifjg25
-    	bne $t5,10,ifjg26
+    	beq $t3,$t4,ifjg26
+    	beq $t5,$t4,ifjg24
+    	beq $t3,$t5,ifjg25
     	j h2
     	
     AnalisisH3:
@@ -343,27 +343,27 @@
         j v1
     	
     AnalisisV2:
-    	bne $t1,10,ifjg22
-    	bne $t4,10,ifjg25
-    	bne $t7,10,ifjg28
+    	beq $t1,$t4, ifjg28
+        beq $t1,$t7, ifjg25
+        beq $t7,$t4, ifjg22
         j v2
     	
     AnalisisV3:
-    	bne $t2,10,ifjg23
-    	bne $t5,10,ifjg26
-    	bne $t8,10,ifjg29
+    	beq $t2,$t5,ifjg29
+        beq $t2,$t8,ifjg26
+        beq $t8,$t5,ifjg23
         j v3
     	  
     AnalisisD2:
-       bne $t2,10,ifjg23
-       bne $t4,10,ifjg25
-       bne $t6,10,ifjg27
+       beq $t2,$t4,ifjg27
+       beq $t2,$t6,ifjg25
+       beq $t4,$t6,ifjg23
        j D2
        
     AnalisisD1:
-       bne $t0,10,ifjg21
-       bne $t4,10,ifjg25
-       bne $t8,10,ifjg28
+       beq $t0,$t4,ifjg29
+       beq $t8,$t4,ifjg21
+       beq $t0,$t8,ifjg25
        j D1	
         
     LogiGanador:
