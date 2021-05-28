@@ -214,76 +214,44 @@
      	add $s6, $t1, $t0
      	add $s6, $s6, $t2      	
       	blt $s6,60,AnalisisH1
-      	
-     	add $s6, $t1, $t2      	
-      	beq $s6,20,AnalisisH1
-      	
-     	add $s6, $t2, $t0      	
-      	beq $s6,20,AnalisisH1
+  
         #horizontales segunda linea
      	add $s6, $t3, $t4
-      	beq $s6,20,AnalisisH2
-      	
-      	add $s6, $t3, $t5
-      	beq $s6,20,AnalisisH2 
-      	
-      	add $s6, $t5, $t4
-      	beq $s6,20,AnalisisH2       	
+     	add $s6, $s6, $t5
+      	blt $s6,60,AnalisisH2
+        	
         #horizontales tercera linea
-     	add $s6, $t6, $t7      	
-      	beq $s6,20,AnalisisH3  
-      	
-      	add $s6, $t6, $t8      	
-      	beq $s6,20,AnalisisH3 
-      	
-      	add $s6, $t8, $t7          	  	
-      	beq $s6,20,AnalisisH3 
+     	add $s6, $t6, $t7     
+     	add $s6, $s6, $t8 	
+      	blt $s6,60,AnalisisH3        	
+      
         #Verticales fila 1
         add $s6, $t0, $t3
-      	beq $s6,20,AnalisisV1
-      	
-      	add $s6, $t0, $t6
-      	beq $s6,20,AnalisisV1
-      	
-      	add $s6, $t6, $t3
-      	beq $s6,20,AnalisisV1 
+        add $s6, $s6, $t6
+      	blt $s6,60,AnalisisV1
+     
         #verticales fila 2  	
       	add $s6, $t1, $t4
-      	beq $s6,20,AnalisisV2 
-      	
-      	add $s6, $t1, $t7
-      	beq $s6,20,AnalisisV2
-      	 
-      	add $s6, $t7, $t4
-      	beq $s6,20,AnalisisV2 
+      	add $6, $s6, $t7
+      	blt $s6,60,AnalisisV2 
+      
         #vertical fila 3  	
-      	add $s6, $t2, $t5      	
-      	beq $s6,20,AnalisisV3 
-      	
-      	add $s6, $t2, $t8      	
-      	beq $s6,20,AnalisisV3
-      	 
-      	add $s6, $t5, $t8      	
-      	beq $s6,20,AnalisisV3 
+      	add $s6, $t2, $t5   
+      	add $s6,$s6,$t8   	
+      	blt $s6,60,AnalisisV3 
+   
       	
         #diagonales derecha
-        add $s6, $t0, $t4      	
-      	beq $s6,20,AnalisisD1
-      	
-      	add $s6, $t8, $t4      	
-      	beq $s6,20,AnalisisD1
-      	
-      	add $s6, $t0, $t8      	
-      	beq $s6,20,AnalisisD1
+        add $s6, $t0, $t4 
+        add $s6, $s6, $t8     	
+      	blt $s6,60,AnalisisD1
+    
         # diagolanles izquierda	
-        add $s6, $t2, $t4      	
-        beq $s6,20,AnalisisD2
+        add $s6, $t2, $t4  
+        add $s6, $s6, $t6    	
+        blt $s6,60,AnalisisD2
       
-        add $s6, $t6, $t4      	
-        beq $s6,20,AnalisisD2
-      
-        add $s6, $t2, $t6      	
-        beq $s6,20,AnalisisD2     	
+          	
        
         jr $ra
         
@@ -338,79 +306,45 @@
         
     LogiGanador:
        #Horizontales primera linea
-       add $s6, $t1, $t0      	
-       beq $s6,40,AnalisisGH1
-      	
-       add $s6, $t1, $t2      	
-       beq $s6,40,AnalisisGH1
-      	
-       add $s6, $t2, $t0      	
-       beq $s6,40,AnalisisGH1
+       add $s6, $t1, $t0  
+       add $s6, $s6, $t2    	
+       blt $s6,120,AnalisisGH1      	
+      
        #horizontales segunda linea
        add $s6, $t3, $t4
-       beq $s6,40,AnalisisGH2
-      	
-       add $s6, $t3, $t5
-       beq $s6,40,AnalisisGH2 
-      	
-       add $s6, $t5, $t4
-       beq $s6,40,AnalisisGH2       	
+       add $s6, $s6, $t5
+       blt $s6,120,AnalisisGH2      	
+           	
        #horizontales tercera linea
-       add $s6, $t6, $t7      	
-       beq $s6,40,AnalisisGH3  
-      	
-       add $s6, $t6, $t8      	
-       beq $s6,40,AnalisisGH3 
-      	
-       add $s6, $t8, $t7          	  	
-       beq $s6,40,AnalisisGH3 
+       add $s6, $t6, $t7    
+       add $s6,$s6, $t8  	
+       blt $s6,120,AnalisisGH3       	
+        
        #Verticales fila 1
        add $s6, $t0, $t3
-       beq $s6,40,AnalisisGV1
-      	
-       add $s6, $t0, $t6
-       beq $s6,40,AnalisisGV1
-      	
-       add $s6, $t6, $t3
-       beq $s6,40,AnalisisGV1 
+       add $s6, $s6,$t6
+       blt $s6,120,AnalisisGV1      	
+      
        #verticales fila 2  	
        add $s6, $t1, $t4
-       beq $s6,40,AnalisisGV2 
-      	
-       add $s6, $t1, $t7
-       beq $s6,40,AnalisisGV2
-      	 
-       add $s6, $t7, $t4
-       beq $s6,40,AnalisisGV2 
+       add $s6,$s6,$t7
+       blt $s6,120,AnalisisGV2      	
+       
        #vertical fila 3  	
-       add $s6, $t2, $t5      	
-       beq $s6,40,AnalisisGV3 
-      	
-       add $s6,$t2, $t8      	
-       beq $s6,40,AnalisisGV3
-      	 
-       add $s6, $t5, $t8      	
-       beq $s6,40,AnalisisGV3 
-      	
+       add $s6, $t2, $t5  
+       add $s6, $s6, $t8    	
+       blt $s6,120,AnalisisGV3    	
+           	
        #diagonales derecha
-       add $s6, $t0, $t4      	
-       beq $s6,40,AnalisisGD1
-     	
-       add $s6, $t8, $t4      	
-       beq $s6,40,AnalisisGD1
-      	
-       add $s6, $t0, $t8      	
-       beq $s6,40,AnalisisGD1
+       add $s6, $t0, $t4     
+       add $s6, $s6, $t8 	
+       blt $s6,120,AnalisisGD1     	
+      
        # diagolanles izquierda	
-       add $s6, $t2, $t4      	
-       beq $s6,40,AnalisisGD2
+       add $s6, $t2, $t4    
+       add $s6,$s6, $t6  	
+       blt $s6,120,AnalisisGD2      
       
-       add $s6, $t6, $t4      	
-       beq $s6,40,AnalisisGD2
-      
-       add $s6, $t2, $t6      	
-       beq $s6,40,AnalisisGD2  
-        
        jr $ra
     
     AnalisisGD2:
