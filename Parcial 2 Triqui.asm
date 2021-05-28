@@ -344,79 +344,119 @@ LogiGanador:
       	beq $s6,40,AnalisisGH1
         #horizontales segunda linea
      	add $s6, $t3, $t4
-      	beq $s6,20,AnalisisGH2
+      	beq $s6,40,AnalisisGH2
       	
       	add $s6, $t3, $t5
-      	beq $s6,20,AnalisisGH2 
+      	beq $s6,40,AnalisisGH2 
       	
       	add $s6, $t5, $t4
-      	beq $s6,20,AnalisisGH2       	
+      	beq $s6,40,AnalisisGH2       	
         #horizontales tercera linea
      	add $s6, $t6, $t7      	
-      	beq $s6,20,AnalisisGH3  
+      	beq $s6,40,AnalisisGH3  
       	
       	add $s6, $t6, $t8      	
-      	beq $s6,20,AnalisisGH3 
+      	beq $s6,40,AnalisisGH3 
       	
       	add $s6, $t8, $t7          	  	
-      	beq $s6,20,AnalisisGH3 
+      	beq $s6,40,AnalisisGH3 
         #Verticales fila 1
         add $s6, $t0, $t3
-      	beq $s6,20,AnalisisGV1
+      	beq $s6,40,AnalisisGV1
       	
       	add $s6, $t0, $t6
-      	beq $s6,20,AnalisisGV1
+      	beq $s6,40,AnalisisGV1
       	
       	add $s6, $t6, $t3
-      	beq $s6,20,AnalisisGV1 
+      	beq $s6,40,AnalisisGV1 
         #verticales fila 2  	
       	add $s6, $t1, $t4
-      	beq $s6,20,AnalisisGV2 
+      	beq $s6,40,AnalisisGV2 
       	
       	add $s6, $t1, $t7
-      	beq $s6,20,AnalisisGV2
+      	beq $s6,40,AnalisisGV2
       	 
       	add $s6, $t7, $t4
-      	beq $s6,20,AnalisisGV2 
+      	beq $s6,40,AnalisisGV2 
         #vertical fila 3  	
       	add $s6, $t2, $t5      	
-      	beq $s6,20,AnalisisGV3 
+      	beq $s6,40,AnalisisGV3 
       	
-      	add $s6, $t2, $t8      	
-      	beq $s6,20,AnalisisGV3
+      	add $s6,$t2, $t8      	
+      	beq $s6,40,AnalisisGV3
       	 
       	add $s6, $t5, $t8      	
-      	beq $s6,20,AnalisisGV3 
+      	beq $s6,40,AnalisisGV3 
       	
         #diagonales derecha
         add $s6, $t0, $t4      	
-      	beq $s6,20,AnalisisGD1
+      	beq $s6,40,AnalisisGD1
       	
       	add $s6, $t8, $t4      	
-      	beq $s6,20,AnalisisGD1
+      	beq $s6,40,AnalisisGD1
       	
       	add $s6, $t0, $t8      	
-      	beq $s6,20,AnalisisGD1
+      	beq $s6,40,AnalisisGD1
         # diagolanles izquierda	
         add $s6, $t2, $t4      	
-        beq $s6,20,AnalisisGD2
+        beq $s6,40,AnalisisGD2
       
         add $s6, $t6, $t4      	
-        beq $s6,20,AnalisisGD2
+        beq $s6,40,AnalisisGD2
       
         add $s6, $t2, $t6      	
-        beq $s6,20,AnalisisGD2   
+        beq $s6,40,AnalisisGD2   
         jr $ra
        
        #Funciones de analisis de ganador   
-       AnalisisGH1:
-       blt $t0,10,ifjg21
-       blt $t1,10,ifjg22
-       blt $t3,10,ifjg23
-       jr $ra
+
+AnalisisGD2:
+        blt $t2,10,ifjg23
+        blt $t4,10,ifjg25
+        blt $t6,10,ifjg27
+        jr $ra
+AnalisisGD1:
+        blt $t0,10,ifjg21
+        blt $t4,10,ifjg25
+        blt $t8,10,ifjg28
+        jr $ra
+AnalisisGV1:
+        blt $t0,10,ifjg21
+        blt $t3,10,ifjg24
+        blt $t6,10,ifjg27
+        jr $ra
+AnalisisGV2:
+        blt $t1,10,ifjg22
+        blt $t4,10,ifjg25
+        blt $t7,10,ifjg28
+        jr $ra  
+AnalisisGV3:
+        blt $t2,10,ifjg23
+        blt $t5,10,ifjg26
+        blt $t8,10,ifjg29
+        jr $ra
+    
+AnalisisGH1:
+        blt $t0,10,ifjg21
+        blt $t1,10,ifjg22
+        blt $t3,10,ifjg23
+        jr $ra       
+    
+AnalisisGH2:
+        blt $t3,10,ifjg24
+        blt $t4,10,ifjg25
+        blt $t5,10,ifjg26
+        jr $ra
+    
+AnalisisGH3:
+        blt $t6,10,ifjg27
+        blt $t7,10,ifjg28
+        blt $t8,10,ifjg29
+        jr $ra
+
        
    #Funciones de analisis defensa    
-       AnalisisD2:
+AnalisisD2:
        bne $t2,10,ifjg23
        bne $t4,10,ifjg25
        bne $t6,10,ifjg27
