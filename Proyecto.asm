@@ -207,10 +207,13 @@
       	syscall
       	
         jr $ra
+        #jugada especifica
+      
         
     Logica:
     	
     	jal LogiGanador 
+    	#jal JugadaEspecial
         #Horizontales primera linea
      	add $s6, $t1, $t0
      	add $s6, $s6, $t2     	
