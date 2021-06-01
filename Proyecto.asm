@@ -208,12 +208,55 @@
       	
         jr $ra
         #jugada especifica
+        JugadaEspecial:
+        beq $t0,$t8,esquinas1
+        beq $t2,$t6,esquinas1
+        #formacion de L
+        beq $t0,$t5,esqinas2
+        beq $t2,$t3,esquina21
+        beq $t8,$t3,esq3
+        beq $t6,$t5,esq4
+        
+        
+        jr $ra
+        esq3:
+        add $s6,$t4,$t7
+        beq $s6,48,ifjg28
+        
+        add $s6,$t5,$t7
+        beq $s6,48,ifjg28
+        jr $ra
+        esq4:
+        add $s6,$t4,$t7
+        beq $s6,48,ifjg28
+        
+        add $s6,$t3,$t7
+        beq $s6,48,ifjg28
+        jr $ra
+        esquinas1:
+        add $s6,$t4,$t1
+        beq $s6,42,ifjg22      
+        jr $ra        
+        esqinas2:
+        add $s6,$t4,$t2
+        beq $s6,43,ifjg23
+        
+        add $s6,$t3,$t2
+        beq $s6,43,ifjg23
+        jr $ra
+        esquina21:
+        add $s6,$t4,$t0
+        beq $s6,41,ifjg21
+        
+        add $s6,$t5,$t0
+        beq $s6,41,ifjg21
+        jr $ra
       
         
     Logica:
     	
     	jal LogiGanador 
-    	#jal JugadaEspecial
+    	beq $s1,2,JugadaEspecial
         #Horizontales primera linea
      	add $s6, $t1, $t0
      	add $s6, $s6, $t2     	
