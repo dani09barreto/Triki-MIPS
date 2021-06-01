@@ -226,7 +226,7 @@
         beq $t3,$t7,rya3
         beq $t5,$t7,rya4 
         
-        jr $ra
+        j z
         rya1:
         beq $t2,3,ifjg23
         jr $ra
@@ -305,6 +305,7 @@
     	
     	jal LogiGanador 
     	beq $s1,2,JugadaEspecial
+    	z:
         #Horizontales primera linea
      	add $s6, $t1, $t0
      	add $s6, $s6, $t2     	
