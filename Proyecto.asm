@@ -216,8 +216,56 @@
         beq $t2,$t3,esquina21
         beq $t8,$t3,esq3
         beq $t6,$t5,esq4
+        beq $t6,$t1,esq5
+        beq $t0,$t7,esq6
+        beq $t7,$t2,esq7
+        beq $t8,$t1,esq8
+        #formacion en raya
+        beq $t1,$t5,rya1
+        beq $t1,$t3,rya2
+        beq $t3,$t7,rya3
+        beq $t5,$t7,rya4 
         
+        jr $ra
+        rya1:
+        beq $t2,3,ifjg23
+        jr $ra
+        rya2:
+        beq $t0,1,ifjg21
+        jr $ra
+        rya3:
+        beq $t6,7,ifjg27
+        jr $ra
+        rya4:
+        beq $t8,9,ifjg29
+        jr $ra 
+        esq8:
+        add $s6,$t4,$t5
+        beq $s6,46,ifjg26
         
+        add $s6,$t5,$t7
+        beq $s6,46,ifjg26
+        jr $ra
+        esq7:
+        add $s6,$t4,$t5
+        beq $s6,46,ifjg26
+        
+        add $s6,$t1,$t5
+        beq $s6,46,ifjg26
+        jr $ra
+        esq6:
+        add $s6,$t4,$t3
+        beq $s6,44,ifjg24
+        
+        add $s6,$t1,$t3
+        beq $s6,44,ifjg24
+        jr $ra
+        esq5:
+        add $s6,$t4,$t0
+        beq $s6,41,ifjg21
+        
+        add $s6,$7,$t0
+        beq $s6,41,ifjg21
         jr $ra
         esq3:
         add $s6,$t4,$t7
